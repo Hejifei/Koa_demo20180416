@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title><%= title %></title>
+</head>
+<body>
+    <table>
+        <thead>
+            <tr><td>name</td><td>email</td><td>level</td><td>操作</td></tr>
+        </thead>
+        <tbody>
+            <% for(let i=0;i<JSON.parse(result.data).length;i++){  %>
+                <tr>
+                    <td><%= JSON.parse(result.data)[i].name %></td>
+                    <td><%= JSON.parse(result.data)[i].email %></td>
+                    <td><%= JSON.parse(result.data)[i].level %></td>
+                    <td>
+                        <a onclick='userDelete(<%= JSON.parse(result.data)[i].id %>)'>删除</a>
+                        <a href="/userlist/detail?id=<%= JSON.parse(result.data)[i].id %>">查看</a>
+                    </td>
+                    
+                </tr>
+            <% } %>
+        </tbody>
+    </table>
+    <button onclick='userDelete(1)'>不存在的id</button>
+    <script src="/output/dist/js/jquery.js"></script>
+    <script>
+        function userDelete(idget){
+            $.ajax({
+                url:'http://localhost:3001/api/user/Delete.json',
+                type:'POST',
+                data:{id:idget},
+                success:function(res){
+                    console.log(res)
+                },
+                error:function(xhr,textStatus){
+                    console.log('错误')
+                    console.log(xhr)
+                    console.log(textStatus)
+                },
+            })
+        }
+    </script>
+</body>
+</html>
